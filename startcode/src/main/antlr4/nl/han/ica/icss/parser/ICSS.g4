@@ -45,39 +45,40 @@ ASSIGNMENT_OPERATOR: ':=';
 
 
 //--- PARSER: ---
-stylesheet: (stylerule | varDeclaration)* EOF;
-stylerule: tagSelector OPEN_BRACE (styleDeclaration | ifStatement)+ CLOSE_BRACE;
+stylesheet: (stylerule | variableAssignment)* EOF;
+stylerule: selector body;
 
-styleDeclaration: LOWER_IDENT COLON assignment SEMICOLON;
-varDeclaration: variable ASSIGNMENT_OPERATOR assignment SEMICOLON;
-ifStatement: IF BOX_BRACKET_OPEN condition BOX_BRACKET_CLOSE OPEN_BRACE (styleDeclaration | ifStatement)+ CLOSE_BRACE elseStatement*;
-elseStatement: ELSE OPEN_BRACE (styleDeclaration | ifStatement)+ CLOSE_BRACE;
+variableAssignment: variableReference ASSIGNMENT_OPERATOR literal SEMICOLON;
 
-assignment:
-            COLOR |
-            PIXELSIZE |
-            TRUE |
-            FALSE |
-            PERCENTAGE |
-            SCALAR |
-            variable |
-            expression;
+ifClause: IF BOX_BRACKET_OPEN bool BOX_BRACKET_CLOSE body elseClause?;
+elseClause: ELSE body;
 
-expression: expression MUL expression |
-            expression PLUS expression |
-            expression MIN expression |
-            SCALAR |
-            PIXELSIZE |
-            PERCENTAGE |
-            variable;
+body: OPEN_BRACE (declaration | ifClause | variableAssignment)+ CLOSE_BRACE;
 
-condition: TRUE | FALSE | variable;
+declaration: propertyName COLON (literal | expression) SEMICOLON;
 
-variable: CAPITAL_IDENT;
+literal:    COLOR #colorLiteral|
+            PIXELSIZE #pixelLiteral|
+            PERCENTAGE #percentageLiteral|
+            SCALAR #scalarLiteral|
+            bool #boolLiteral|
+            variableReference #var;
 
-tagSelector: ID_IDENT |
-             CLASS_IDENT |
-             LOWER_IDENT;
+expression: SCALAR #scalarValue|
+            PIXELSIZE #pixelValue|
+            PERCENTAGE #percentageValue|
+            variableReference #variableValue|
+            expression MUL expression #multiplication|
+            expression PLUS expression #addition|
+            expression MIN expression #subtraction;
 
+bool: TRUE | FALSE | variableReference;
 
+variableReference: CAPITAL_IDENT;
+
+selector:    ID_IDENT #idSelector|
+             CLASS_IDENT #classSelector|
+             LOWER_IDENT #tagSelector;
+
+propertyName: LOWER_IDENT;
 
