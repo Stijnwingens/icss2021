@@ -48,8 +48,8 @@ ASSIGNMENT_OPERATOR: ':=';
 stylesheet: (stylerule | variableAssignment)* EOF;
 stylerule: selector body;
 
-variableAssignment: variableReference ASSIGNMENT_OPERATOR literal SEMICOLON;
-declaration: propertyName COLON (literal | variableReference | expression) SEMICOLON;
+variableAssignment: variableReference ASSIGNMENT_OPERATOR expression SEMICOLON;
+declaration: propertyName COLON expression SEMICOLON;
 
 ifClause: IF BOX_BRACKET_OPEN conditionalExpression BOX_BRACKET_CLOSE body elseClause?;
 elseClause: ELSE body;
@@ -62,13 +62,10 @@ literal:    COLOR #colorLiteral|
             SCALAR #scalarLiteral|
             bool #boolLiteral;
 
-expression: SCALAR #scalarValue|
-            PIXELSIZE #pixelValue|
-            PERCENTAGE #percentageValue|
+expression: literal #lit|
             variableReference #variableValue|
             expression MUL expression #multiplication|
-            expression PLUS expression #addition|
-            expression MIN expression #subtraction;
+            expression (PLUS | MIN) expression #subAdd;
 
 bool: TRUE | FALSE;
 conditionalExpression: bool | variableReference;
