@@ -62,7 +62,7 @@ literal:    COLOR #colorLiteral|
             SCALAR #scalarLiteral|
             bool #boolLiteral;
 
-expression: literal #lit|
+expression: literal #literalValue|
             variableReference #variableValue|
             expression MUL expression #multiplication|
             expression (PLUS | MIN) expression #subAdd;
