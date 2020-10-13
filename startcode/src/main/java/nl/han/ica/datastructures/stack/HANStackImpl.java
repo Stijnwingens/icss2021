@@ -39,7 +39,7 @@ public class HANStackImpl<T> implements IHANStack<T> {
     public String toString() {
         StringBuilder s = new StringBuilder();
         for (int i = 0; i < helper.getSize(); i++) {
-            s.append("Node ").append(i).append("| Value: ").append(helper.get(i));
+            s.append("Node ").append(i).append(" | Value: ").append(helper.get(i)).append("\n");
         }
         return s.toString();
     }
