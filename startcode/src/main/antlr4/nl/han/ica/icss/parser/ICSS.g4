@@ -70,9 +70,9 @@ expression: literal #literalValue|
 bool: TRUE | FALSE;
 conditionalExpression: bool | variableReference;
 
-variableReference: CAPITAL_IDENT;
-propertyName: LOWER_IDENT;
-
 selector:    ID_IDENT #idSelector|
              CLASS_IDENT #classSelector|
              LOWER_IDENT #tagSelector;
+
+variableReference: CAPITAL_IDENT;
+propertyName: LOWER_IDENT;
