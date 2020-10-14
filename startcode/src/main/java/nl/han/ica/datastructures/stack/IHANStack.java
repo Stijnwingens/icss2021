@@ -1,4 +1,4 @@
-package nl.han.ica.datastructures;
+package nl.han.ica.datastructures.stack;
 
 public interface IHANStack<T> {
     /**
@@ -21,4 +21,6 @@ public interface IHANStack<T> {
      * @return value at the top of the stack
      */
     T peek();
+
+    boolean isEmpty();
 }
