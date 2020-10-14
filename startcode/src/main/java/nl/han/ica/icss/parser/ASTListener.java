@@ -95,7 +95,7 @@ public class ASTListener extends ICSSBaseListener {
             ifClause.addChild(currentContainer.pop());
         }
 
-        ifClause.addChild(currentContainer.pop());
+        if (!currentContainer.isEmpty()) ifClause.addChild(currentContainer.pop());
 
         Collections.reverse(ifClause.body);
         currentContainer.push(ifClause);
@@ -116,7 +116,7 @@ public class ASTListener extends ICSSBaseListener {
             if (currentContainer.peek() instanceof ElseClause) break;
             elseClause.addChild(currentContainer.pop());
         }
-        currentContainer.pop();
+        if (!currentContainer.isEmpty()) currentContainer.pop();
         currentContainer.push(elseClause);
     }
 
